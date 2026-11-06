@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Signup - AskSmth{% endblock %}
+{% block content %}
+
+<div class="center-form">
+<h1 class="form-title">Регистрация</h1>
+<form action="{% url 'core:signup' %}" class="form-card" enctype="multipart/form-data" method="post">
+{% csrf_token %}
+<div class="form-error">Этот email уже зарегистрирован.</div>
+<div class="field">
+<label for="signup_field_1">Логин <span class="required">*</span></label>
+<input class="control form-control" id="signup_field_1" name="signup_1" placeholder="Придумайте логин" required=""/>
+<div class="hint">Используйте латинские буквы и цифры.</div>
+</div>
+<div class="field">
+<label for="signup_field_2">Email <span class="required">*</span></label>
+<input class="control form-control is-invalid" id="signup_field_2" name="email" placeholder="name@example.com" required="" type="email"/>
+<div class="field-error">Введите корректный email.</div>
+</div>
+<div class="field">
+<label for="signup_field_3">Имя пользователя <span class="required">*</span></label>
+<input class="control form-control" id="signup_field_3" name="signup_3" required="" value="Danila Vlasov"/>
+</div>
+<div class="field">
+<label for="signup_field_4">Пароль <span class="required">*</span></label>
+<input class="control form-control" id="signup_field_4" name="password" placeholder="Введите пароль" required="" type="password"/>
+</div>
+<div class="field">
+<label for="signup_field_5">Повторите пароль <span class="required">*</span></label>
+<input class="control form-control" id="signup_field_5" name="password_repeat" placeholder="Введите пароль" required="" type="password"/>
+</div>
+<div class="field">
+<label for="signup_file_6">Аватар (необязательно)</label>
+<input class="control form-control" id="signup_file_6" name="signup_file_6" style="font-size:14px" type="file"/>
+</div>
+<button class="primary-btn" style="width:100%" type="submit">Зарегистрироваться</button>
+<div class="auth-footer">Уже есть аккаунт? <a class="simple-link" href="{% url 'core:login' %}">Войти</a></div>
+</form>
+</div>
+
+{% endblock %}

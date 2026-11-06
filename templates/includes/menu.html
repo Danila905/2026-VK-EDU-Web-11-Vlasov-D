@@ -1,0 +1,15 @@
+{% load static %}
+<nav class="left side-card">
+<a class="nav-item {% if section == 'index' %}active{% endif %}" href="{% url 'questions:index' %}"><img alt="" class="icon" height="20" src="{% static 'core/img/home.svg' %}" width="20"> <span>Главная</span></a>
+<a class="nav-item {% if section == 'hot' %}active{% endif %}" href="{% url 'questions:hot' %}"><img alt="" class="icon" height="20" src="{% static 'core/img/fire.svg' %}" width="20"> <span>Популярное</span></a>
+<a class="nav-item" href="{% url 'questions:index' %}"><img alt="" class="icon" height="20" src="{% static 'core/img/clock.svg' %}" width="20"> <span>Последние</span></a>
+<a class="nav-item {% if section == 'tag' %}active{% endif %}" href="{% url 'questions:tag' 'css' %}"><img alt="" class="icon" height="20" src="{% static 'core/img/tag.svg' %}" width="20"> <span>Теги</span></a>
+<div class="side-rule"></div>
+<div class="nav-heading">Категории <img alt="" class="icon" height="16" src="{% static 'core/img/chev.svg' %}" width="16"></div>
+<a class="nav-item category" href="{% url 'questions:tag' 'python' %}"><img alt="" class="icon" height="18" src="{% static 'core/img/code.svg' %}" width="18"> <span>Программирование</span></a>
+<a class="nav-item category" href="{% url 'questions:tag' 'django' %}"><img alt="" class="icon" height="18" src="{% static 'core/img/web.svg' %}" width="18"> <span>Веб-разработка</span></a>
+<a class="nav-item category" href="{% url 'questions:tag' 'django' %}"><img alt="" class="icon" height="18" src="{% static 'core/img/database.svg' %}" width="18"> <span>Базы данных</span></a>
+<a class="nav-item category" href="{% url 'questions:tag' 'python' %}"><img alt="" class="icon" height="18" src="{% static 'core/img/algorithm.svg' %}" width="18"> <span>Алгоритмы</span></a>
+<a class="nav-item category" href="{% url 'questions:tag' 'django' %}"><img alt="" class="icon" height="18" src="{% static 'core/img/wrench.svg' %}" width="18"> <span>Инструменты</span></a>
+<a class="nav-item category" href="{% url 'questions:tag' 'css' %}"><img alt="" class="icon" height="18" src="{% static 'core/img/more.svg' %}" width="18"> <span>Другое</span></a>
+</nav>

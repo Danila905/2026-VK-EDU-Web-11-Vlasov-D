@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Login - AskSmth{% endblock %}
+{% block content %}
+
+<div class="center-form">
+<h1 class="form-title">Вход в аккаунт</h1>
+<form action="{% url 'core:login' %}" class="form-card" method="post">
+{% csrf_token %}
+<div class="form-error">Неправильный логин или пароль.</div>
+<div class="field">
+<label for="login_field_1">Логин <span class="required">*</span></label>
+<input class="control form-control is-invalid" id="login_field_1" name="login_1" placeholder="Введите логин" required=""/>
+<div class="field-error">Введите логин.</div>
+</div>
+<div class="field">
+<label for="login_field_2">Пароль <span class="required">*</span></label>
+<input class="control form-control" id="login_field_2" name="password" placeholder="Введите пароль" required="" type="password"/>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin:4px 0 19px;font-size:14px">
+<label><input type="checkbox"/> Запомнить меня</label>
+<a class="simple-link" href="#">Забыли пароль?</a>
+</div>
+<button class="primary-btn" style="width:100%" type="submit">Войти</button>
+<div class="auth-footer">Нет аккаунта? <a class="simple-link" href="{% url 'core:signup' %}">Зарегистрироваться</a></div>
+</form>
+</div>
+
+{% endblock %}
