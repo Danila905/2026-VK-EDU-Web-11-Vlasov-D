@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Profile - AskSmth{% endblock %}
+{% block content %}
+
+<h1 class="form-title">Настройки профиля</h1>
+<form action="{% url 'core:profile' %}" class="form-card" enctype="multipart/form-data" method="post">
+{% csrf_token %}
+<div class="form-error">Не удалось сохранить настройки. Проверьте данные.</div>
+<div class="profile-panel">
+<div class="pic"><img alt="" class="icon" height="65" src="{% static 'core/img/user.svg' %}" width="65"/></div>
+<div class="pic-info">
+<h2>Danila Vlasov</h2>
+<div style="color:#687968;font-size:14px">Текущая аватарка пользователя</div>
+<div class="stats" style="margin-top:11px">
+<div class="stat"><b>757</b> <span>Рейтинг</span></div>
+<div class="stat"><b>77</b> <span>Вопросов</span></div>
+<div class="stat"><b>154</b> <span>Ответов</span></div>
+</div>
+</div>
+</div>
+<div class="profile-grid">
+<div class="field">
+<label for="profile_field_1">Логин</label>
+<input class="control form-control" id="profile_field_1" name="profile_1" required="" value="danila"/>
+<div class="hint">Изменение логина может быть ограничено.</div>
+</div>
+<div class="field"><label for="profile_field_2">Nickname</label> <input class="control form-control" id="profile_field_2" name="profile_2" required="" value="Danila Vlasov"/></div>
+</div>
+<div class="field">
+<label for="profile_field_3">Email <span class="required">*</span></label>
+<input class="control form-control is-invalid" id="profile_field_3" name="email" required="" type="email" value="danila@example.com"/>
+<div class="field-error">Введите корректный email.</div>
+</div>
+<div class="field">
+<label for="profile_file_4">Загрузить новую аватарку</label>
+<input class="control form-control" id="profile_file_4" name="profile_file_4" style="font-size:14px" type="file"/>
+<div class="hint">JPG или PNG, размер до 2 МБ.</div>
+</div>
+<div class="button-row"><button class="secondary-btn" type="reset">Отмена</button> <button class="primary-btn" type="submit">Сохранить изменения</button></div>
+</form>
+
+{% endblock %}

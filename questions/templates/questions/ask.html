@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Ask - AskSmth{% endblock %}
+{% block content %}
+
+<h1 class="form-title">Задать вопрос</h1>
+<form action="{% url 'questions:ask' %}" class="form-card ask-form" method="post">
+{% csrf_token %}
+<div class="form-error">Не удалось добавить вопрос. Проверьте поля.</div>
+<div class="field">
+<label for="ask_field_1">Заголовок вопроса <span class="required">*</span></label>
+<input class="control form-control is-invalid" id="ask_field_1" maxlength="150" minlength="10" name="ask_1" placeholder="Кратко сформулируйте вопрос..." required="" title="От 10 до 150 символов"/>
+<div class="field-error">Заголовок должен содержать от 10 до 150 символов.</div>
+<div class="hint">От 10 до 150 символов.</div>
+</div>
+<div class="field">
+<label for="ask_field_2">Текст вопроса <span class="required">*</span></label>
+<textarea class="control textarea form-control" id="ask_field_2" name="body" placeholder="Опишите проблему подробнее..." required=""></textarea>
+<div class="hint">Добавьте детали и пример кода, если он есть.</div>
+</div>
+<div class="field">
+<label for="ask_field_3">Теги</label>
+<input class="control form-control" id="ask_field_3" name="tags" required="" value="bootstrap, css, html"/>
+<div class="hint">Укажите теги через запятую.</div>
+</div>
+<div class="field">
+<label for="ask_field_4">Категория</label>
+<select class="control form-select" id="ask_field_4" name="category"><option>Веб-разработка</option></select>
+</div>
+<div class="button-row"><button class="primary-btn" type="submit">Опубликовать вопрос</button></div>
+</form>
+
+{% endblock %}

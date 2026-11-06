@@ -1,0 +1,13 @@
+{% load static %}
+<aside class="right">
+<div class="side-card panel"><h2>Popular Tags</h2>
+{% for name, slug, count in popular_tags %}
+<a class="tag-stat" href="{% url 'questions:tag' slug %}"><span class="tag">{{ name }}</span> <span>{{ count }}</span></a>
+{% endfor %}
+</div>
+<div class="side-card panel"><h2>Best Members</h2>
+{% for name, rating in best_members %}
+<div class="leader"><span class="rank r{{ forloop.counter }}">{{ forloop.counter }}</span><span class="tiny-avatar"><img alt="" class="icon" height="16" src="{% static 'core/img/user.svg' %}" width="16"></span><span class="leader-name">{{ name }}</span><span>{{ rating }}</span></div>
+{% endfor %}
+</div>
+</aside>

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ question.title }} - AskSmth{% endblock %}
+{% block content %}
+<p class="breadcrumb"><a href="{% url 'questions:index' %}">Главная</a> › Вопросы › {{ question.title }}</p>
+<section class="detail-card"><div style="display:flex;gap:19px">
+{% include 'includes/vote.html' with item=question %}
+<div style="flex:1;min-width:0">
+<h1 class="detail-title">{{ question.title }}</h1>
+<div class="detail-meta"><span class="tiny-avatar"><img alt="" class="icon" height="16" src="{% static 'core/img/user.svg' %}" width="16"></span>{{ question.author }} <span>·</span> {{ question.created }} <span>{{ question.answer_count }} ответов</span></div>
+<p class="question-text">{{ question.text }}</p>
+<div class="q-tags">{% for tag in question.tags %}<a class="tag" href="{% url 'questions:tag' tag.slug %}">{{ tag.name }}</a> {% endfor %}</div>
+</div></div></section>
+<h2 class="section-title">Ответы ({{ question.answer_count }})</h2>
+{% for answer in page %}{% include 'includes/answer_card.html' with answer=answer %}{% endfor %}
+{% include 'includes/pagination.html' %}
+<form action="{% url 'questions:question' question.id %}" class="form-card answer-entry" method="post">
+{% csrf_token %}
+<h2 style="margin:0 0 14px">Ваш ответ</h2>
+<textarea class="control textarea form-control" name="answer" placeholder="Напишите ответ..." required></textarea>
+<div class="hint">Ответ должен быть полезным и относиться к вопросу.</div>
+<div class="button-row" style="margin-top:16px"><button class="primary-btn" type="submit">Ответить</button></div>
+</form>
+{% endblock %}

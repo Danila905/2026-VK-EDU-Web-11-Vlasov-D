@@ -1,0 +1,12 @@
+{% load static %}
+{% if page.paginator.num_pages > 1 %}
+<nav class="pagination" aria-label="Страницы">
+{% if page.has_previous %}<a class="page" href="?page={{ page.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}" aria-label="Назад"><img alt="" class="icon" height="18" src="{% static 'core/img/left.svg' %}" width="18"></a>{% endif %}
+{% for number in page_numbers %}
+{% if number == '…' %}<span class="dots">…</span>
+{% elif number == page.number %}<span class="page selected" aria-current="page">{{ number }}</span>
+{% else %}<a class="page" href="?page={{ number }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}">{{ number }}</a>{% endif %}
+{% endfor %}
+{% if page.has_next %}<a class="page" href="?page={{ page.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q|urlencode }}{% endif %}" aria-label="Дальше"><img alt="" class="icon" height="18" src="{% static 'core/img/right.svg' %}" width="18"></a>{% endif %}
+</nav>
+{% endif %}

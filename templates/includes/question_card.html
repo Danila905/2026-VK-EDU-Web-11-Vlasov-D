@@ -1,0 +1,11 @@
+{% load static %}
+<article class="question-card">
+{% include 'includes/vote.html' with item=question %}
+<div class="question-main">
+<a class="question-title" href="{% url 'questions:question' question.id %}">{{ question.title }}</a>
+<p class="question-excerpt">{{ question.text }}</p>
+<div class="q-tags">{% for tag in question.tags %}<a class="tag" href="{% url 'questions:tag' tag.slug %}">{{ tag.name }}</a> {% endfor %}</div>
+<div class="author"><span class="tiny-avatar"><img alt="" class="icon" height="16" src="{% static 'core/img/user.svg' %}" width="16"></span><span>{{ question.author }}</span><span class="sep">·</span><span>{{ question.created }}</span></div>
+</div>
+<a class="reply-count" href="{% url 'questions:question' question.id %}"><img alt="" class="icon" height="23" src="{% static 'core/img/chat.svg' %}" width="23"> <b>{{ question.answer_count }}</b> <span>ответов</span></a>
+</article>

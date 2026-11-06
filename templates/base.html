@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}AskSmth{% endblock %}</title>
+<link rel="icon" href="{% static 'core/img/favicon.svg' %}" type="image/svg+xml">
+<link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+</head>
+<body>
+<div class="shell">
+{% include 'includes/header.html' %}
+<main class="main-grid">
+{% include 'includes/menu.html' %}
+<div class="content">{% block content %}{% endblock %}</div>
+{% include 'includes/rightbar.html' %}
+</main>
+<footer aria-label="Подвал сайта" class="footer"></footer>
+</div>
+<script src="{% static 'core/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

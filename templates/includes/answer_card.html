@@ -1,0 +1,10 @@
+{% load static %}
+<section class="answer-card">
+{% include 'includes/vote.html' with item=answer %}
+<div style="flex:1;min-width:0">
+<p class="answer-text">{{ answer.text }}</p>
+<div class="answer-foot"><span class="answer-author"><span class="tiny-avatar"><img alt="" class="icon" height="16" src="{% static 'core/img/user.svg' %}" width="16"></span> {{ answer.author }} · {{ answer.created }}</span>
+{% if answer.correct %}<span class="correct"><span class="square checked"><img alt="" class="icon" height="13" src="{% static 'core/img/check.svg' %}" width="13"></span> Правильный ответ</span>
+{% else %}<span class="empty-correct"><span class="square"></span> Правильный ответ</span>{% endif %}
+</div></div>
+</section>

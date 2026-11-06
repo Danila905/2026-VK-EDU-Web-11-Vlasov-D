@@ -1,0 +1,6 @@
+{% load static %}
+<div class="vote-box">
+<button aria-label="Лайк" class="vote-arrow {% if item.vote_state == 'up' %}on{% endif %}" type="button"><img alt="" class="icon" height="26" src="{% static 'core/img/up.svg' %}" width="26"></button>
+<b>{{ item.votes }}</b>
+<button aria-label="Дизлайк" class="vote-arrow {% if item.vote_state == 'down' %}down{% endif %}" type="button"><img alt="" class="icon" height="26" src="{% static 'core/img/down.svg' %}" width="26"></button>
+</div>

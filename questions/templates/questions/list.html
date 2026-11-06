@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-heading"><div><h1>{% block heading %}New Questions{% endblock %}</h1><div class="under"></div></div><div class="sort">Сначала новые</div></div>
+{% for question in page %}{% include 'includes/question_card.html' with question=question %}
+{% empty %}<div class="form-card">Вопросов пока нет.</div>{% endfor %}
+{% include 'includes/pagination.html' %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% load static %}
+<header class="site-header">
+<a class="brand" href="{% url 'questions:index' %}"><span class="brand-icon"><img alt="" class="icon" height="29" src="{% static 'core/img/chat.svg' %}" width="29"> <b>&lt;/&gt;</b></span> AskSmth</a>
+<form action="{% url 'questions:index' %}" class="search-box" method="get" role="search">
+<img alt="" class="icon" height="21" src="{% static 'core/img/search.svg' %}" width="21">
+<input aria-label="Поиск по вопросам" class="search-input" name="q" placeholder="Поиск по вопросам..." type="search">
+</form>
+<a class="ask-btn" href="{% url 'questions:ask' %}">ASK!</a>
+{% if section == 'profile' %}
+<a aria-label="Профиль Danila Vlasov" class="profile-mark" href="{% url 'core:profile' %}"><img alt="" class="icon" height="25" src="{% static 'core/img/user.svg' %}" width="25"></a>
+{% else %}
+<div class="auth-links"><a href="{% url 'core:login' %}">Войти</a> <a href="{% url 'core:signup' %}">Регистрация</a></div>
+{% endif %}
+</header>
