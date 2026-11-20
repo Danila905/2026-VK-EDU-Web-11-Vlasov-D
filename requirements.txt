@@ -1,1 +1,7 @@
 Django==5.2.19
+Pillow
+Faker
+django-debug-toolbar>=6.0,<7
+django-debug-toolbar>=6.0,<7
+psycopg[binary]>=3.2,<4
+python-dotenv>=1.1,<2

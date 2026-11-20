@@ -1,45 +1,52 @@
-from django.http import Http404
-from django.shortcuts import render
-from .data import QUESTIONS, get_answers
+from django.shortcuts import get_object_or_404, render
+
+from .models import Answer, Question, Tag
 from .pagination import paginate
 
 
-def show_list(request, items, template, section, tag_name=''):
-    page = paginate(items, request)
-    numbers = page.paginator.get_elided_page_range(page.number)
-    return render(request, template, {
-        'page': page, 'page_numbers': numbers,
-        'section': section, 'tag_name': tag_name,
-    })
+def show_page(request, items, template, section, per_page=10, **context):
+    page = paginate(items, request, per_page)
+    context['page'] = page
+    context['page_numbers'] = page.paginator.get_elided_page_range(page.number)
+    context['section'] = section
+    return render(request, template, context)
 
 
 def index(request):
-    search = request.GET.get('q', '').strip().lower()
-    items = [q for q in QUESTIONS if search in q['title'].lower()]
-    return show_list(request, items, 'questions/index.html', 'index')
+    search = request.GET.get('q', '')
+    questions = Question.objects.newest(search=search, user=request.user)
+    return show_page(
+        request, questions, 'questions/index.html', 'index',
+    )
 
 
 def hot(request):
-    items = sorted(QUESTIONS, key=lambda q: q['votes'], reverse=True)
-    return show_list(request, items, 'questions/hot.html', 'hot')
+    questions = Question.objects.best(user=request.user)
+    return show_page(
+        request, questions, 'questions/hot.html', 'hot',
+    )
 
 
 def tag(request, tag):
-    items = [q for q in QUESTIONS if tag.lower() in [t['slug'] for t in q['tags']]]
-    return show_list(request, items, 'questions/tag.html', 'tag', tag)
+    item = get_object_or_404(Tag, slug=tag)
+    questions = Question.objects.by_tag(item, user=request.user)
+    return show_page(
+        request, questions, 'questions/tag.html', 'tag', tag_name=item.name,
+    )
 
 
 def question(request, question_id):
-    item = next((q for q in QUESTIONS if q['id'] == question_id), None)
-    if item is None:
-        raise Http404('Вопрос не найден')
-    page = paginate(get_answers(item), request, per_page=2)
-    numbers = page.paginator.get_elided_page_range(page.number)
-    return render(request, 'questions/question.html', {
-        'question': item, 'page': page,
-        'page_numbers': numbers, 'section': 'question',
-    })
+    questions = Question.objects.for_display(request.user)
+    item = get_object_or_404(questions, pk=question_id)
+    answers = Answer.objects.for_question(item, request.user)
+    return show_page(
+        request, answers, 'questions/question.html', 'question', per_page=2, question=item,
+    )
 
 
 def ask(request):
-    return render(request, 'questions/ask.html', {'section': 'ask'})
+    return render(
+        request,
+        'questions/ask.html',
+        {'section': 'ask'},
+    )
