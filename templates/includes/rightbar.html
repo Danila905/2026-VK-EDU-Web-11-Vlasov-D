@@ -7,7 +7,7 @@
 </div>
 <div class="side-card panel"><h2>Best Members</h2>
 {% for profile in best_members %}
-<div class="leader"><span class="rank r{{ forloop.counter }}">{{ forloop.counter }}</span><span class="tiny-avatar"><img alt="" class="icon" height="16" src="{% static 'core/img/user.svg' %}" width="16"></span><span class="leader-name">{{ profile.user.get_full_name|default:profile.user.username }}</span><span title="Количество вопросов">{{ profile.question_count }}</span></div>
+<div class="leader"><span class="rank r{{ forloop.counter }}">{{ forloop.counter }}</span><span class="tiny-avatar">{% include 'includes/avatar.html' with avatar=profile.avatar %}</span><span class="leader-name">{{ profile.user.get_full_name|default:profile.user.username }}</span><span title="Количество вопросов">{{ profile.question_count }}</span></div>
 {% empty %}<p>Участников пока нет.</p>{% endfor %}
 </div>
 </aside>

@@ -1,3 +1,6 @@
+from pathlib import Path
+from uuid import uuid4
+
 from django.conf import settings
 from django.db import models
 
@@ -11,6 +14,10 @@ class ProfileManager(models.Manager):
         ).order_by('-question_count', 'pk')[:3]
 
 
+def avatar_path(instance, filename):
+    return f'avatars/{uuid4().hex}{Path(filename).suffix.lower()}'
+
+
 class Profile(models.Model):
     objects = ProfileManager()
 
@@ -20,7 +27,7 @@ class Profile(models.Model):
         related_name='profile',
         verbose_name='Пользователь',
     )
-    avatar = models.ImageField('Аватар', upload_to='avatars/', blank=True)
+    avatar = models.ImageField('Аватар', upload_to=avatar_path, blank=True)
 
     class Meta:
         verbose_name = 'Профиль'

@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
 <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
 </head>
-<body>
+<body data-login-url="{% url 'core:login' %}">
 <div class="shell">
 {% include 'includes/header.html' %}
 <main class="main-grid">
@@ -20,5 +20,6 @@
 <footer aria-label="Подвал сайта" class="footer"></footer>
 </div>
 <script src="{% static 'core/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'core/js/questions.js' %}" defer></script>
 </body>
 </html>
