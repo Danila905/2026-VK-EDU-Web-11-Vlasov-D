@@ -1,10 +1,20 @@
 {% load static %}
-<section class="answer-card">
-{% include 'includes/vote.html' with item=answer %}
+<section class="answer-card" id="answer-{{ answer.pk }}">
+{% include 'includes/vote.html' with item=answer vote_route='questions:vote_answer' %}
 <div style="flex:1;min-width:0">
 <p class="answer-text">{{ answer.text }}</p>
-<div class="answer-foot"><span class="answer-author"><span class="tiny-avatar"><img alt="" class="icon" height="16" src="{% static 'core/img/user.svg' %}" width="16"></span> {{ answer.author }} · {{ answer.created }}</span>
-{% if answer.correct %}<span class="correct"><span class="square checked"><img alt="" class="icon" height="13" src="{% static 'core/img/check.svg' %}" width="13"></span> Правильный ответ</span>
-{% else %}<span class="empty-correct"><span class="square"></span> Правильный ответ</span>{% endif %}
-</div></div>
+<div class="answer-foot">
+<span class="answer-author">
+<span class="tiny-avatar">{% include 'includes/avatar.html' with avatar=answer.author.profile.avatar %}</span>
+{{ answer.author }} · {{ answer.created }}
+</span>
+{% if answer.correct %}
+<span class="correct"><span class="square checked"><img class="icon" alt="" height="13" width="13" src="{% static 'core/img/check.svg' %}"></span> Правильный ответ</span>
+{% elif user.pk == question.author_id %}
+<button class="empty-correct correct-choice" type="button" data-correct-url="{% url 'questions:correct_answer' %}" data-question="{{ question.pk }}" data-answer="{{ answer.pk }}">
+<span class="square"></span> Отметить правильным
+</button>
+{% endif %}
+</div>
+</div>
 </section>

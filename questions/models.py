@@ -48,7 +48,7 @@ class QuestionManager(models.Manager):
     def for_display(self, user=None):
         answers = Answer.objects.filter(question_id=OuterRef('pk'))
         counts = answers.values('question_id').annotate(total=Count('pk'))
-        return self.select_related('author').prefetch_related('tags').annotate(
+        return self.select_related('author__profile').prefetch_related('tags').annotate(
             answer_count=Coalesce(Subquery(counts.values('total')), 0),
             **vote_annotations(QuestionLike.objects, 'question_id', user),
         )
@@ -93,7 +93,7 @@ class Question(models.Model):
 
 class AnswerManager(models.Manager):
     def for_question(self, question, user=None):
-        return self.filter(question=question).select_related('author').annotate(
+        return self.filter(question=question).select_related('author__profile').annotate(
             **vote_annotations(AnswerLike.objects, 'answer_id', user),
         ).order_by('-correct', 'created', 'pk')
 

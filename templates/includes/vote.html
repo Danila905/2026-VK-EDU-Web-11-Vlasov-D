@@ -1,6 +1,12 @@
 {% load static %}
-<div class="vote-box">
-<button aria-label="Лайк" class="vote-arrow {% if item.user_vote == 1 %}on{% endif %}" type="button"><img alt="" class="icon" height="26" src="{% static 'core/img/up.svg' %}" width="26"></button>
-<b>{{ item.votes }}</b>
-<button aria-label="Дизлайк" class="vote-arrow {% if item.user_vote == -1 %}down{% endif %}" type="button"><img alt="" class="icon" height="26" src="{% static 'core/img/down.svg' %}" width="26"></button>
+<div class="vote-box" data-vote-url="{% url vote_route %}" data-id="{{ item.pk }}">
+<button class="vote-arrow{% if item.user_vote == 1 %} on{% endif %}" type="button" aria-label="Лайк" data-value="1"
+    {% if not user.is_authenticated %}disabled title="Войдите, чтобы голосовать"{% elif item.user_vote == 1 %}disabled title="Вы уже поставили лайк"{% endif %}>
+    <img class="icon" alt="" width="26" height="26" src="{% static 'core/img/up.svg' %}">
+</button>
+<b aria-live="polite">{{ item.votes }}</b>
+<button class="vote-arrow{% if item.user_vote == -1 %} down{% endif %}" type="button" aria-label="Дизлайк" data-value="-1"
+    {% if not user.is_authenticated %}disabled title="Войдите, чтобы голосовать"{% elif item.user_vote == -1 %}disabled title="Вы уже поставили дизлайк"{% endif %}>
+    <img class="icon" alt="" width="26" height="26" src="{% static 'core/img/down.svg' %}">
+</button>
 </div>

@@ -1,3 +1,11 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import redirect_to_login
+from django.db.models import Q
+from django.shortcuts import redirect
+from django.views.decorators.http import require_http_methods
+
+from .forms import AnswerForm, QuestionForm
+
 from django.shortcuts import get_object_or_404, render
 
 from .models import Answer, Question, Tag
@@ -35,18 +43,44 @@ def tag(request, tag):
     )
 
 
+ANSWERS_PER_PAGE = 2
+
+
+@require_http_methods(['GET', 'POST'])
 def question(request, question_id):
-    questions = Question.objects.for_display(request.user)
-    item = get_object_or_404(questions, pk=question_id)
+    item = get_object_or_404(Question.objects.for_display(request.user), pk=question_id)
+
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect_to_login(request.get_full_path())
+
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save(request.user, item)
+            earlier = item.answers.filter(
+                Q(correct=True) | Q(created__lt=answer.created)
+                | Q(created=answer.created, pk__lt=answer.pk)
+            ).count()
+            page_number = earlier // ANSWERS_PER_PAGE + 1
+            return redirect(f'{item.get_absolute_url()}?page={page_number}#answer-{answer.pk}')
+    else:
+        form = AnswerForm()
+
     answers = Answer.objects.for_question(item, request.user)
     return show_page(
-        request, answers, 'questions/question.html', 'question', per_page=2, question=item,
+        request, answers, 'questions/question.html', 'question',
+        per_page=ANSWERS_PER_PAGE, question=item, form=form,
     )
 
 
+@login_required
+@require_http_methods(['GET', 'POST'])
 def ask(request):
-    return render(
-        request,
-        'questions/ask.html',
-        {'section': 'ask'},
-    )
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            return redirect(form.save(request.user))
+    else:
+        form = QuestionForm()
+
+    return render(request, 'questions/ask.html', {'section': 'ask', 'form': form})
