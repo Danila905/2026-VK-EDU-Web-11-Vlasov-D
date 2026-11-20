@@ -9,12 +9,12 @@
 <h1 class="detail-title">{{ question.title }}</h1>
 <div class="detail-meta"><span class="tiny-avatar"><img alt="" class="icon" height="16" src="{% static 'core/img/user.svg' %}" width="16"></span>{{ question.author }} <span>·</span> {{ question.created }} <span>{{ question.answer_count }} ответов</span></div>
 <p class="question-text">{{ question.text }}</p>
-<div class="q-tags">{% for tag in question.tags %}<a class="tag" href="{% url 'questions:tag' tag.slug %}">{{ tag.name }}</a> {% endfor %}</div>
+<div class="q-tags">{% for tag in question.tags.all %}<a class="tag" href="{{ tag.get_absolute_url }}">{{ tag.name }}</a> {% endfor %}</div>
 </div></div></section>
 <h2 class="section-title">Ответы ({{ question.answer_count }})</h2>
-{% for answer in page %}{% include 'includes/answer_card.html' with answer=answer %}{% endfor %}
+{% for answer in page %}{% include 'includes/answer_card.html' with answer=answer %}{% empty %}<p class="form-card">Пока нет ни одного ответа к этому вопросу.</p>{% endfor %}
 {% include 'includes/pagination.html' %}
-<form action="{% url 'questions:question' question.id %}" class="form-card answer-entry" method="post">
+<form action="{{ question.get_absolute_url }}" class="form-card answer-entry" method="post">
 {% csrf_token %}
 <h2 style="margin:0 0 14px">Ваш ответ</h2>
 <textarea class="control textarea form-control" name="answer" placeholder="Напишите ответ..." required></textarea>

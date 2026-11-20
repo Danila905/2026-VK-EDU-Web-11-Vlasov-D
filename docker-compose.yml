@@ -1,13 +1,29 @@
 services:
+  db:
+    image: postgres:16-alpine
+    env_file: .env.docker
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 3s
+      timeout: 5s
+      retries: 30
+
   web:
     build: .
+    env_file: .env.docker
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     volumes:
       - .:/app
       - media_data:/app/media
-    environment:
-      DJANGO_DEBUG: "1"
-      DJANGO_ALLOWED_HOSTS: "localhost,127.0.0.1,0.0.0.0"
+    depends_on:
+      db:
+        condition: service_healthy
+
 volumes:
   media_data:
+  postgres_data:

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="page-heading"><div><h1>{% block heading %}New Questions{% endblock %}</h1><div class="under"></div></div><div class="sort">Сначала новые</div></div>
+<div class="page-heading"><div><h1>{% block heading %}New Questions{% endblock %}</h1><div class="under"></div></div><div class="sort">{% if section == "hot" %}По рейтингу{% else %}Сначала новые{% endif %}</div></div>
 {% for question in page %}{% include 'includes/question_card.html' with question=question %}
-{% empty %}<div class="form-card">Вопросов пока нет.</div>{% endfor %}
+{% empty %}<div class="form-card">{% if request.GET.q %}По вашему запросу ничего не найдено.{% else %}Пока нет ни одного вопроса.{% endif %}</div>{% endfor %}
 {% include 'includes/pagination.html' %}
 {% endblock %}
